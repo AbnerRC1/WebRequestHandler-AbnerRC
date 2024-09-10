@@ -113,7 +113,6 @@ projects = {
     """
 }
 
-
 if __name__ == "__main__":
     print("Starting server")
     server = HTTPServer(("localhost", 8000), WebRequestHandler)
