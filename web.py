@@ -16,13 +16,15 @@ class WebRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(self.get_response().encode("utf-8"))
 
     def get_response(self):
+        path_elements = ": ".join(self.url().path.split("/")[1:])
+        parsed_query = parse_qsl(self.url().query)
+        query_elements = [_ for _ in parsed_query]
+        query_text = ""
+        if query_elements:
+            query_text = ", ".join([f"{x}: {y}" for (x, y) in query_elements])
         return f"""
-    <h1> Hola Web </h1>
-    <p> URL Parse Result : {self.url()}         </p>
-    <p> Path Original: {self.path}         </p>
-    <p> Headers: {self.headers}      </p>
-    <p> Query: {self.query_data()}   </p>
-"""
+            <h1>{path_elements}, {query_text}</h1>
+        """
 
 
 if __name__ == "__main__":
